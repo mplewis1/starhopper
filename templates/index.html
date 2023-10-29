@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Starhopper</title>
+</head>
+<body>
+    <h1>Starhopper Query Interface</h1>
+    <form id="queryForm">
+        <input type="text" id="question" name="question" placeholder="Ask a question...">
+        <input type="submit" value="Search">
+    </form>
+    <div id="answer"></div>
+
+    <script>
+        document.getElementById('queryForm').onsubmit = function(event) {
+            event.preventDefault();
+            var question = document.getElementById('question').value;
+            fetch('/query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "question": question })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('answer').innerText = "Answer: " + data.answer;
+            });
+        };
+    </script>
+</body>
+</html>
